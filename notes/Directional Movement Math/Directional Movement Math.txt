@@ -1,0 +1,29 @@
+		var x_dir = sign(x_goto - x)
+		var y_dir = sign(y_goto - y)
+		var x_spd = abs(x_goto - x)
+		var y_spd = abs(y_goto - y)
+		anim_pointer = 0
+		anim_timer = 0
+		
+		if x_dir == -1 && x_spd > y_spd {
+			array_copy(current_animation,0,walk_left,0,array_length(walk_left))
+			array_copy(prev_animation,0,walk_left,0,array_length(walk_left))
+		}
+		if x_dir == 1  && x_spd > y_spd {
+			array_copy(current_animation,0,walk_right,0,array_length(walk_right))
+			array_copy(prev_animation,0,walk_right,0,array_length(walk_right))
+		}
+		if y_dir == -1 && y_spd > x_spd {
+			array_copy(current_animation,0,walk_up,0,array_length(walk_up))
+			array_copy(prev_animation,0,walk_up,0,array_length(walk_up))
+		}
+		if y_dir == 1 && y_spd > x_spd {
+			array_copy(current_animation,0,walk_down,0,array_length(walk_down))
+			array_copy(current_animation,0,walk_down,0,array_length(walk_down))
+		}
+		if x_spd == y_spd {
+			if y_dir == -1 {
+				array_copy(current_animation,0,walk_up,0,array_length(walk_up))
+			}
+			else array_copy(current_animation,0,walk_down,0,array_length(walk_down))
+		}

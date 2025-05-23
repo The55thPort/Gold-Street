@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"district_name_convert",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"district_name_convert",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

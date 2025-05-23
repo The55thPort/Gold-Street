@@ -1,0 +1,6 @@
+TOGGLES vvvv
+[0] = Game Stat?
+[0,0] = Player?
+[0,0,0] = Which stat?
+[0,0,0,0] = Which shop?
+[0,0,0,0,0] = What about it?
