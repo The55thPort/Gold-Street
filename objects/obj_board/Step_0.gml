@@ -1,3 +1,5 @@
+//Calculate Total Value of Each District
+
 global.district_values = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
 with (obj_space) {
@@ -6,6 +8,9 @@ with (obj_space) {
 	}
 }
 
+/////////////////////////////////////////////////////
+//Calculate Stock Prices
+
 var district = 0
 repeat (array_length(global.shops_in_district)) {
 	if array_length(global.shops_in_district[district]) != 0 {
@@ -13,3 +18,5 @@ repeat (array_length(global.shops_in_district)) {
 	}
 	district++
 }
+
+/////////////////////////////////////////////////////

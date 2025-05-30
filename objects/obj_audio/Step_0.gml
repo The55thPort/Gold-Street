@@ -1,6 +1,8 @@
-if room == rm_game {
+//SFX State Machine
 
-	switch state_sfx {
+if room == rm_game {
+	
+	switch state_sfx { 
 	
 		case "menu_open":
 			sfx = sfx_blip
@@ -31,6 +33,9 @@ if room == rm_game {
 	
 }
 
+/////////////////////////////////////////////////////
+//Load Songs from Theme
+
 if room == rm_mainmenu {
 	
 	if song_current != "" {
@@ -53,3 +58,5 @@ if room == rm_mainmenu {
 	song_last = song_current
 	
 }
+
+/////////////////////////////////////////////////////

@@ -1,9 +1,14 @@
+//Find the Images folder
+
 if room == rm_mainmenu {
 	path = "Themes/" + global.theme_name + "/Graphics/"
 }
 else if room == rm_game {
 	path = "Boards/" + global.board_name + "/Graphics/"
 }
+
+/////////////////////////////////////////////////////
+//Animation Handling
 
 if prev_animation != current_animation {
 	anim_timer = 0
@@ -30,3 +35,5 @@ if array_length(current_animation) != 0 {
 	else anim_timer--
 	
 }
+
+/////////////////////////////////////////////////////
