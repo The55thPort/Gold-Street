@@ -15,7 +15,7 @@ song_current = ""
 song_last = song_current
 
 /////////////////////////////////////////////////////
-//Load Main Theme, if board has one
+//Load Main Theme (if board has one)
 
 if room == rm_game {
 	if global.board_theme != -1 {

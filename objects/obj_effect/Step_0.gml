@@ -1,6 +1,9 @@
+//Main Effect Logic
+
 switch state {
 	
 	case "arrow":
+		//act as a directional arrow on the ground
 		timer_ref = 60
 		timer++
 		
@@ -22,3 +25,5 @@ switch state {
 	break;
 	
 }
+
+/////////////////////////////////////////////////////

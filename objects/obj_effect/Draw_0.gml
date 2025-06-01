@@ -1,11 +1,14 @@
+//Draw Correct Effect Sprite
+
 switch state {
 	
 	case "arrow":
+		//draw directional arrow on ground
 		var spr = spr_arrow_e
 		var col = global.player.color
 		if blinking == true {col = c_grey}
 		
-		//+23, -22
+		//point arrow towards correct direction
 		if dir <= 23 or dir >= 338 {spr = spr_arrow_e}
 		if dir <= 68 and dir >= 23 {spr = spr_arrow_ne}
 		if dir <= 113 and dir >= 68 {spr = spr_arrow_n}
@@ -19,7 +22,10 @@ switch state {
 	break;
 	
 	default:
+		//fallback, draw nothing if placed in error
 		draw_self()
 	break;
 	
 }
+
+/////////////////////////////////////////////////////

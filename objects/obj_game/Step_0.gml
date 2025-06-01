@@ -4,7 +4,10 @@ var number = 0
 
 switch global.state {
 	
+	//Arcade Logic
+	
 	case "arcade_payout":
+		//give prizes to players when returning from arcade
 		global.player.depth -= 1
 		global.player.image_alpha = 1
 		obj_persistent.arcade_winner.readycash += obj_persistent.arcade_payout
@@ -12,11 +15,16 @@ switch global.state {
 	break;
 	
 	case "arcade_setup":
+		//save game to special file, then go to arcade room
 		SaveGame("minigame.txt")
 		room_goto(rm_pachinko)
 	break;
 	
+	/////////////////////////////////////////////////////
+	//Board Logic
+	
 	case "board_select":
+		//move to next state after selecting a space
 		if obj_camera.readyflag = true {
 			obj_camera.readyflag = false
 			if obj_camera.selected != noone {
@@ -28,13 +36,18 @@ switch global.state {
 	break;
 	
 	case "board_view":
+		//return to previous state after viewing the board
 		if obj_camera.readyflag == true {
 			obj_camera.readyflag = false
 			global.state = "player_action"
 		}
 	break;
 	
+	/////////////////////////////////////////////////////
+	//Dice Logic
+	
 	case "dice_roll":
+		//pass the dice roll to the current player
 		if obj_dice.readyflag == true {
 			obj_dice.readyflag = false
 			if obj_dice.diceroll = -1 {
@@ -49,7 +62,11 @@ switch global.state {
 		}
 	break;
 	
+	/////////////////////////////////////////////////////
+	//District Logic
+	
 	case "district_select":
+		//move to next state after selecting district
 		if obj_menu.readyflag == true {
 			obj_menu.readyflag = false
 			
@@ -63,7 +80,11 @@ switch global.state {
 		}
 	break;
 	
+	/////////////////////////////////////////////////////
+	//Game Logic
+	
 	case "game_load":
+		//load selected file
 		LoadGame(obj_persistent.file_selected)
 		if obj_persistent.file_selected != "New Game" {
 			var i = 0
@@ -73,6 +94,7 @@ switch global.state {
 				i++
 			}
 		}
+		//if selected file was minigame.txt, switch state to "arcade_payout"
 		if obj_persistent.file_selected == "minigame.txt" {
 			global.state = "arcade_payout"
 			file_delete("Boards/" + global.board_name + "/Saves/minigame.txt")
@@ -83,6 +105,7 @@ switch global.state {
 	break;
 	
 	case "game_save":
+		//save game to file
 		if obj_menu.readyflag == true {
 			obj_menu.readyflag = false
 			
@@ -93,6 +116,9 @@ switch global.state {
 			
 		}
 	break;
+	
+	/////////////////////////////////////////////////////
+	//Player Logic
 	
 	case "player_action":
 		if obj_menu.readyflag == true {
@@ -198,6 +224,9 @@ switch global.state {
 	case "player_victory":
 		
 	break;
+	
+	/////////////////////////////////////////////////////
+	//Shop Logic
 	
 	case "shop_buy":
 		if obj_menu.readyflag == true {
@@ -312,6 +341,9 @@ switch global.state {
 		global.state = "wait"
 	break;
 	
+	/////////////////////////////////////////////////////
+	//Space Logic
+	
 	case "space_execute":
 	
 		if global.board[global.player.current_position].properties.type == "arcade" {
@@ -345,6 +377,9 @@ switch global.state {
 			global.state = "wait"
 		}
 	break;
+	
+	/////////////////////////////////////////////////////
+	//Stocks Logic
 	
 	case "stocks_ask":
 		if obj_menu.readyflag == true {
@@ -444,6 +479,9 @@ switch global.state {
 		}
 	break;
 	
+	/////////////////////////////////////////////////////
+	//Turn Logic
+	
 	case "turn_end":
 		if global.player.readycash < 0 {
 			global.state = "player_poor"
@@ -477,12 +515,18 @@ switch global.state {
 		}
 	break;
 	
+	/////////////////////////////////////////////////////
+	//Venture Logic
+	
 	case "venture_execute":
 		ExecuteVenture(irandom_range(1,16))
 		if global.state == "venture_execute" {
 			global.state = "turn_end"
 		}
 	break;
+	
+	/////////////////////////////////////////////////////
+	//Wait
 	
 	case "wait":
 		timer--

@@ -1,3 +1,7 @@
+//OBJ_DICE - Invisible (though shouldn't be), handles die-related logic
+/////////////////////////////////////////////////////
+//Initialize Variables
+
 readyflag = false
 
 global.die_sprites = [ spr_die_1 ]
@@ -11,3 +15,5 @@ idle_timer = 20
 spin_timer = 0
 
 diceroll = 0
+
+/////////////////////////////////////////////////////

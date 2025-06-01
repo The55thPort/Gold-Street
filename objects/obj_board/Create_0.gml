@@ -14,20 +14,20 @@ board_left = 0
 board_bottom = 0
 board_right = 0
 
-board_data = LoadBoard() //Get Board Data
+board_data = LoadBoard() //get board data
 
 /////////////////////////////////////////////////////
 //Create All Spaces
 
 repeat (array_length(board_data[0])) {
-	//Initialize Current Space
+	//initialize current space
 	var space_number = instance_number(obj_space)
 	var current_space = instance_create_layer(0,0,"Board",obj_space)
 
-	//Assign Current Space's Properties
+	//assign current space's properties
 	current_space.properties = board_data[0,space_number]
 	
-	//Initialize Board Dimensions (if space 0)
+	//initialize board dimensions (if space #0)
 	if space_number == 0 {
 		board_top = current_space.properties.y
 		board_left = current_space.properties.x
@@ -35,13 +35,13 @@ repeat (array_length(board_data[0])) {
 		board_right = current_space.properties.x
 	}
 	
-	//Recalculate New Board Dimensions (if necessary)
+	//recalculate new board dimensions (if necessary)
 	if current_space.properties.x > board_right {board_right = current_space.properties.x}
 	if current_space.properties.x < board_left {board_left = current_space.properties.x}
 	if current_space.properties.y > board_bottom {board_bottom = current_space.properties.y}
 	if current_space.properties.y < board_top {board_top = current_space.properties.y}
 	
-	//Finalize Space
+	//finalize space
 	array_push(global.board,current_space)
 }
 
@@ -65,22 +65,22 @@ var bg = -1
 var anim = 0
 
 repeat (5) {
-	//Load Lower 5 Backgrounds
+	//create lower 5 backgrounds
 	if board_data[1][0][anim] != -1 {
-		bg = instance_create_layer(0,0,"Background",obj_background) //Initialize BG
-		bg.current_animation = board_data[1][0][anim] //Assign Current BG's Animation
-		bg.depth += 5 - anim //Set Current BG to Correct Depth
+		bg = instance_create_layer(0,0,"Background",obj_background) //initialize bg
+		bg.current_animation = board_data[1][0][anim] //assign current bg's animation
+		bg.depth += 5 - anim //set current bg to correct depth
 	}
 	anim++
 }
 
 anim = 0
 repeat (5) {
-	//Load Upper 5 Backgrounds
+	//create upper 5 backgrounds
 	if board_data[1][1][anim] != -1 {
-		bg = instance_create_layer(0,0,"Players",obj_background) //Initialize BG
-		bg.current_animation = board_data[1][1][anim] //Assign Current BG's Animation
-		bg.depth -= 5 + anim //Set Current BG to Correct Depth
+		bg = instance_create_layer(0,0,"Players",obj_background) //initialize bg
+		bg.current_animation = board_data[1][1][anim] //assign current bg's animation
+		bg.depth -= 5 + anim //set current bg to correct depth
 	}
 	anim++
 }

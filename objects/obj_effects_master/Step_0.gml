@@ -1,13 +1,19 @@
+//Prevent Code from Running Multiple Times
+
 if globalstate_last != global.state {
 	run_once = false
 }
 globalstate_last = global.state
+
+/////////////////////////////////////////////////////
+//Main Effect Logic
 
 var num = 0
 
 switch global.state {
 	
 	case "player_action":
+		//create directional arrows on ground
 		if run_once = false {
 			repeat (4) {
 				
@@ -61,6 +67,7 @@ switch global.state {
 	break;
 	
 	case "player_move":
+		//create directional arrows on ground
 		if global.player.moving == false && arrows_drawn == false {
 			run_once = false
 		}
@@ -134,3 +141,5 @@ switch global.state {
 	break;
 	
 }
+
+/////////////////////////////////////////////////////
