@@ -61,8 +61,6 @@ if room == rm_game {
 		case "board_view":
 			//allow player control over camera
 	
-			sprite_index = spr_camera
-	
 			if keyboard_check(global.key_up) {
 				y -= scroll_speed
 				if y < top {y += scroll_speed}
@@ -83,10 +81,6 @@ if room == rm_game {
 				if x > right - 16 {x -= scroll_speed}
 			}
 	
-			if keyboard_check(global.key_back) {
-				sprite_index = noone
-				readyflag = true
-			}
 		break;
 	
 		case "shop_invest_1":

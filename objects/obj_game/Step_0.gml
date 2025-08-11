@@ -39,7 +39,8 @@ switch global.state {
 		//return to previous state after viewing the board
 		if obj_camera.readyflag == true {
 			obj_camera.readyflag = false
-			global.state = "player_action"
+			global.state = "player_action" // we're tearing out wires here
+			// remove the view board option
 		}
 	break;
 	
@@ -113,7 +114,6 @@ switch global.state {
 			if obj_menu.selected == "File 2" {SaveGame("save2.txt")}
 			if obj_menu.selected == "File 3" {SaveGame("save3.txt")}
 			global.state = "player_action"
-			
 		}
 	break;
 	
@@ -124,17 +124,13 @@ switch global.state {
 		if obj_menu.readyflag == true {
 			obj_menu.readyflag = false
 			
-			if obj_menu.selected == "Roll" {
-				global.state = "dice_roll"
-			}
-			
-			if obj_menu.selected == "View Board" {
+			if obj_menu.selected == "Roll" {global.state = "dice_roll"}
+			else if obj_menu.selected == "View Board" {
+				state_stored_prev_2 = "player_action"
 				global.state = "board_view"
-			}
-			
-			if obj_menu.selected == "Save" {
-				global.state = "game_save"
-			}
+				}
+			else if obj_menu.selected == "Manage Shops" {global.state = "manage_shops"}
+			else if obj_menu.selected == "Save" {global.state = "game_save"}
 			
 			if obj_menu.selected = -1 {
 				room_goto(rm_mainmenu)
@@ -342,6 +338,36 @@ switch global.state {
 	break;
 	
 	/////////////////////////////////////////////////////
+	//Shop Management
+	
+	case "manage_shops":
+	
+	if obj_menu.readyflag == true {global.state = "player_action"}
+	
+	if obj_menu.selected == "Auction" {global.state = "manage_auction"}
+	else if obj_menu.selected == "Buy Shop" {global.state = "manage_buy"}
+	else if obj_menu.selected == "Sell Shop" {global.state = "manage_sell"}
+	else if obj_menu.selected == "Trade Shop" {global.state = "manage_trade_1"}
+	
+	break;
+	
+	case "manage_auction":
+	if obj_menu.selected == noone {global.state = "manage_shops"}
+	break;
+	
+	case "manage_buy":
+	if obj_menu.selected == noone {global.state = "manage_shops"}
+	break;
+	
+	case "manage_sell":
+	if obj_menu.selected == noone {global.state = "manage_shops"}
+	break;
+	
+	case "manage_trade_1":
+	if obj_menu.selected == noone {global.state = "manage_shops"}
+	break;
+	
+	/////////////////////////////////////////////////////
 	//Space Logic
 	
 	case "space_execute":
@@ -535,4 +561,35 @@ switch global.state {
 		}
 	break;
 	
+	/////////////////////////////////////////////////////
+	//Pause
+
+}
+
+if(key_pressed(global.key_pause)){
+	if(!paused){
+		obj_menu.state_stored_prev = global.state
+		global.state = "pause"
+		paused = true
+	}else{
+		obj_menu.controls_flag = false
+		obj_menu.page = 0
+		obj_menu.pointer = 0
+		obj_menu.controls_pointer = 0
+		global.state = obj_menu.state_stored_prev
+		paused = false
+	}
+}
+
+if(key_pressed(global.key_view) && !paused && !obj_player_parent.moving){
+	if(!viewing_board){
+		obj_camera.sprite_index = spr_camera
+		obj_menu.state_stored_prev_2 = global.state
+		global.state = "board_view"
+		viewing_board = true
+	}else{
+		global.state = obj_menu.state_stored_prev_2
+		viewing_board = false
+		obj_camera.sprite_index = noone
+	}
 }

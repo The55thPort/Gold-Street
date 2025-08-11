@@ -27,7 +27,7 @@ display_timer = 0
 
 moving = false
 timer = 1
-move_length = 30
+move_length = 10
 x_start = 0
 y_start = 0
 x_goto = 0

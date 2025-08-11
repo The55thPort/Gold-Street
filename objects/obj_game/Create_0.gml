@@ -16,6 +16,8 @@ state_stored_next = ""
 state_stored_next_2 = ""
 selected = noone
 timer = 0
+paused = false
+viewing_board = false
 
 /////////////////////////////////////////////////////
 //Set Up Players

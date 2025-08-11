@@ -4,13 +4,15 @@ global.key_down = ord("S")
 global.key_right = ord("D")
 global.key_select = ord("F")
 global.key_back = ord("Q")
-global.key_menu = vk_tab
+global.key_view = ord("E")
 global.key_shift = vk_shift
+global.key_pause = vk_enter
 
 readyflag = false
 
 global.board_name = "Lucky Zone"
 global.theme_name = "tes"
+global.player_chat = "Slow"
 file_selected = "New Game"
 
 players = [ obj_player1, obj_player2,]

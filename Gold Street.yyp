@@ -94,6 +94,8 @@
     {"id":{"name":"district_name_convert","path":"scripts/district_name_convert/district_name_convert.yy",},},
     {"id":{"name":"district_select_draw","path":"scripts/district_select_draw/district_select_draw.yy",},},
     {"id":{"name":"ExecuteVenture","path":"scripts/ExecuteVenture/ExecuteVenture.yy",},},
+    {"id":{"name":"key_name","path":"scripts/key_name/key_name.yy",},},
+    {"id":{"name":"key_pressed","path":"scripts/key_pressed/key_pressed.yy",},},
     {"id":{"name":"LoadBoard","path":"scripts/LoadBoard/LoadBoard.yy",},},
     {"id":{"name":"LoadGame","path":"scripts/LoadGame/LoadGame.yy",},},
     {"id":{"name":"LoadPlayer","path":"scripts/LoadPlayer/LoadPlayer.yy",},},

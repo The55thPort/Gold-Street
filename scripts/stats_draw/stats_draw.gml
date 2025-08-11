@@ -38,8 +38,8 @@ draw_text_color(menu_right+50,menu_top+19,player.readycash_display,col,col,col,c
 draw_text(menu_right+50,menu_top+10,string_upper(player.name_menu))
 
 col = global.menu_color
-draw_sprite_ext(spr_stats_border,0,menu_right-3,menu_top-3,1,1,0,col,1)
-if global.state == "player_action" or toggle == 1 {
+draw_sprite_ext(spr_stats_border,0,menu_right-3,menu_top-3,1.25,1.25,0,col,1)
+if global.state == "player_action" or menu_toggle == 1 {
 	if player == global.player {
 		draw_sprite_ext(spr_stats_border_cursor,0,menu_right-3,menu_top-3,1,1,0,col,1)
 	}
