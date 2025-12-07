@@ -1,3 +1,4 @@
+//Remove Theme Sprites from Memory (when no longer needed)
 if theme != -1 {
 	
 	sprite_delete(play_selected)

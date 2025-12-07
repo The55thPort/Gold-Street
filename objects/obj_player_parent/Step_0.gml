@@ -1,3 +1,4 @@
+//Scrolling Readycash & Net Worth
 if readycash_display != readycash or net_worth_display != net_worth {
 	display_timer++
 	if display_timer == 240 {
@@ -11,6 +12,7 @@ else display_timer = 0
 readycash_display += sign(readycash - readycash_display)
 net_worth_display += sign(net_worth - net_worth_display)
 
+//Calculate Value of Player's Shops
 shops_value = 0
 var shop_pointer = 0
 repeat (array_length(shops)) {
@@ -19,6 +21,7 @@ repeat (array_length(shops)) {
 }
 shop_pointer = 0
 
+//Calculate Value of Player's Stocks
 stocks_value = 0
 var district = 0
 repeat (array_length(stocks)) {
@@ -30,6 +33,7 @@ repeat (array_length(stocks)) {
 
 net_worth = readycash + shops_value + stocks_value
 
+//Check if able to promote
 if bool(suits[0]) + bool(suits[1]) + bool(suits[2]) + bool(suits[3]) == 4 {
 	promotion = true
 }
@@ -37,16 +41,19 @@ else {
 	promotion = false
 }
 
+//Movement Handling
 if readyflag == false && global.player == object_index {
 	
-	if global.state == "player_move" {
+	if global.state == "player_move" { //If player is allowed to move...
 		
-		if moving == true {
+		if moving == true { //If player is actively moving...
+			//Calculate position
 			var x_lerp = lerp(x_start, x_goto, timer / move_length)
 			var y_lerp = lerp(y_start, y_goto, timer / move_length)
 			x = round(x_lerp)
 			y = round(y_lerp)
 			
+			//End movement if at next space
 			if timer >= move_length {
 				timer = 1
 				moving = false
@@ -59,27 +66,33 @@ if readyflag == false && global.player == object_index {
 				anim_timer = 0
 				anim_pointer = 0
 				
+				//Exit Event if out of spaces to move
 				if spaces_to_move == 0 {
 					readyflag = true
 					exit;
 				}
 				
+				//Exit Event if at bank
 				if global.board[current_position].properties.type == "bank" {
 					exit;
 				}
 			}
+			//Continue moving if between spaces
 			else {
 				timer++
 				exit;
 			}
 		}
 		
+		//If player is not actively moving...
 		if moving == false {
 			
+			//Initialize Temp Variables
 			var next_position = -1
 			var anim = [  ]
 			var anim_prev = [  ]
-		
+			
+			//Listen for Movement Inputs
 			if keyboard_check(global.key_up) {
 				next_position = global.board[current_position].properties.connections[0]
 				anim = walk_up
@@ -100,15 +113,18 @@ if readyflag == false && global.player == object_index {
 				anim = walk_right
 				anim_prev = walk_left
 			}
-		
+			
+			//Exit Event if no movement input
 			if next_position == -1 {
 				exit;
 			}
-		
+			
+			//Exit Event if moving backwards
 			if global.board[next_position] == previous_position && array_length(current_path) == 0 {
 				exit
 			}
 			
+			//Exit Event if movement blocked
 			if variable_struct_exists(global.board[current_position].properties,"blocked") {
 				var block = 0
 				var space = 0
@@ -133,8 +149,7 @@ if readyflag == false && global.player == object_index {
 				}
 			}
 			
-			
-		
+			//Prepare Movement
 			x_start = x
 			y_start = y
 			x_goto = global.board[next_position].properties.x + 8

@@ -1,5 +1,5 @@
 {
-  "$GMNotes":"",
+  "$GMNotes":"v1",
   "%Name":"Directional Movement Math",
   "name":"Directional Movement Math",
   "parent":{

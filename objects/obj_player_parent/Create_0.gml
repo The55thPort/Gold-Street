@@ -1,3 +1,6 @@
+//OBJ_PLAYER - Visible, holds all logic and art for player pieces
+/////////////////////////////////////////////////////
+//Initialize Variables
 readyflag = false
 
 current_animation = [  ]
@@ -34,11 +37,13 @@ x_goto = 0
 y_goto = 0
 suit_to_give = -1
 
+//Set Starting Position and Push into Background
 x = global.board[current_position].properties.x + 8
 y = global.board[current_position].properties.y + 8
 depth += 10
 image_alpha = 0.5
 
+//Load Player Character
 var char_to_load = obj_persistent.player1
 if object_index == obj_player2 {char_to_load = obj_persistent.player2}
 if object_index == obj_player3 {char_to_load = obj_persistent.player3}
@@ -71,4 +76,5 @@ walk_right = character[0,4]
 
 
 
+//Start Character Idling Downwards
 array_copy(current_animation,0,idle_down,0,array_length(idle_down))

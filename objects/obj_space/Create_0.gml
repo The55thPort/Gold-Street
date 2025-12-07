@@ -1,3 +1,6 @@
+//OBJ_SPACE - Visible, holds art and data for each individual space
+/////////////////////////////////////////////////////
+//Initialize Variables
 run_once = false
 
 properties = {

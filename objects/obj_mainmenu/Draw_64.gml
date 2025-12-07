@@ -1,5 +1,6 @@
 draw_set_font(fnt_menu_main)
 
+//Draw Custom Sprites for Theme (if one exists)
 if theme != -1 {
 	
 	switch state {
@@ -25,6 +26,7 @@ if theme != -1 {
 	
 }
 
+//Draw Default Menu (if no theme)
 else {
 
 	switch state {

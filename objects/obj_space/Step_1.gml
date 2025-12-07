@@ -1,3 +1,5 @@
+//Initialize Variables (cont.)
+//(These variables can only be initialized post-creation)
 if run_once == false {
 	
 	if properties.type == "shop" {

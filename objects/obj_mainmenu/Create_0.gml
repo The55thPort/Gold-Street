@@ -1,3 +1,7 @@
+//OBJ_MAINMENU - Invisible, handles the boot menu
+//***(ANYTHING RELATING TO "THEMES" IS NOT FULLY IMPLEMENTED)***
+/////////////////////////////////////////////////////
+//Initialize Variables
 state = "welcome"
 pointer = 0
 selected = ""
@@ -6,6 +10,7 @@ timer = 0
 timer_ref = 60
 main_menu = ["Play","Create","Settings","Leave","Hosts"]
 
+//Load Board Names
 var i = 0
 var boards_data_json = [  ]
 var boards_file = file_text_open_read("Boards/select.txt")
@@ -27,6 +32,7 @@ if boards_data != "[ \"board1\", \"board2\", \"board3...\" ]" {
 }
 file_text_close(boards_file)
 
+//Load Theme Names
 var themes_data_json = [  ]
 var themes_file = file_text_open_read("Themes/select.txt")
 var themes_data = file_text_read_string(themes_file)
@@ -47,12 +53,16 @@ if themes_data != "[ \"theme1\", \"theme2\", \"theme3...\" ]" {
 }
 file_text_close(themes_file)
 
+//Initialize Variables
 boards = boards_data_json
 themes = themes_data_json
 files = ["New Game", "Autosave", "File 1", "File 2", "File 3"]
 
+//Allow Player to Choose Board
 theme = -1
 state = "select_board"
+
+//Load Theme, if one exists
 if array_contains(themes,global.theme_name) {
 	theme = LoadTheme(global.theme_name)
 	var path = "Themes/" + global.theme_name + "/Graphics/"
@@ -72,5 +82,4 @@ if array_contains(themes,global.theme_name) {
 	
 	state = "welcome"
 }
-
 bg = instance_create_layer(0,0,"Instances",obj_background)
