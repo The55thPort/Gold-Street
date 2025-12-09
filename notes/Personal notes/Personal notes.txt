@@ -1,0 +1,5 @@
+I figured out the board_select thing, I confused it for select_board, which DOES select the board. I renamed it to "select_square_on_board" to avoid future confusion.
+
+I wouldn't be against using substates for all future states, but I do think it's important to have some sort of consistency in the code. I guess we can say that if a state requires more than 3 states it'll use substates? I'll comment that somewhere in the code.
+
+I guess more the problem

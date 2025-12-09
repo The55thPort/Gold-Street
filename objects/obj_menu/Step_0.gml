@@ -46,6 +46,8 @@ if array_length(districts) == 0 {
 	i = 0
 }
 
+//substates are allowed, but only if there's more than 3. Keep that in mind.
+
 switch global.state {
 	
 	case "district_select":
@@ -134,6 +136,7 @@ switch global.state {
 			readyflag = true
 		}
 	break;
+	
 	/*
 	case "manage_auction":
 		obj_audio.state_sfx = "menu_open"

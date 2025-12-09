@@ -1,5 +1,5 @@
 {
-  "$GMNotes":"",
+  "$GMNotes":"v1",
   "%Name":"Perf. Scroll",
   "name":"Perf. Scroll",
   "parent":{

@@ -1,5 +1,5 @@
 {
-  "$GMNotes":"",
+  "$GMNotes":"v1",
   "%Name":"Tile Types",
   "name":"Tile Types",
   "parent":{

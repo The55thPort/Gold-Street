@@ -23,8 +23,8 @@ switch global.state {
 	/////////////////////////////////////////////////////
 	//Board Logic
 	
-	case "board_select":
-		//move to next state after selecting a space
+	case "select_square_on_board":
+		//this is just board_view but you select a square on the board to move on to the next state
 		if obj_camera.readyflag = true {
 			obj_camera.readyflag = false
 			if obj_camera.selected != noone {
@@ -36,11 +36,10 @@ switch global.state {
 	break;
 	
 	case "board_view":
-		//return to previous state after viewing the board
+		//views the board
 		if obj_camera.readyflag == true {
 			obj_camera.readyflag = false
-			global.state = "player_action" // we're tearing out wires here
-			// remove the view board option
+			global.state = "player_action" 
 		}
 	break;
 	
@@ -175,7 +174,7 @@ switch global.state {
 				state_stored_next = "shop_sell"
 				obj_camera.selecting = "shop"
 				obj_camera.selecting_sub = global.player
-				global.state = "board_select"
+				global.state = "select_square_on_board"
 			}
 		}
 	break;
@@ -271,7 +270,7 @@ switch global.state {
 				state_stored_next = "shop_invest_1"
 				obj_camera.selecting = "shop"
 				obj_camera.selecting_sub = global.player
-				global.state = "board_select"
+				global.state = "select_square_on_board"
 			}
 		}
 	break;
@@ -319,7 +318,7 @@ switch global.state {
 				state_stored_next = "shop_invest_1"
 				obj_camera.selecting = "shop"
 				obj_camera.selecting_sub = global.player
-				global.state = "board_select"
+				global.state = "select_square_on_board"
 			}
 			else global.state = "turn_end"
 		}
