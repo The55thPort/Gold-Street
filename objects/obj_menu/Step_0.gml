@@ -51,8 +51,10 @@ if array_length(districts) == 0 {
 switch global.state {
 	
 	case "district_select":
+		//play sound effect
 		obj_audio.state_sfx = "menu_open"
 		
+		//load districts to display
 		districts_display = [  ]
 		repeat (4) {
 			if page*4+i <= array_length(districts) - 1 {
@@ -62,7 +64,7 @@ switch global.state {
 			i++
 		}
 		
-		if array_length(districts_display)
+		//menu controls
 		if key_pressed(global.key_up) {
 			pointer_temp = loop(pointer_temp, -1, districts_display)
 			if districts_display[pointer_temp] == "--" {
@@ -110,8 +112,10 @@ switch global.state {
 	break;
 	
 	case "game_save":
+		//play sound effect
 		obj_audio.state_sfx = "menu_open"
 		
+		//menu controls
 		move_arrayed_cursor(choose_file)
 		
 		reset_option(choose_file)
@@ -124,8 +128,10 @@ switch global.state {
 	break;
 	
 	case "manage_shops"://this state is unfinished and abandoned for now
+		//play sound effect
 		obj_audio.state_sfx = "menu_open"
 		
+		//menu controls
 		move_arrayed_cursor(manage_shops)
 		
 		reset_option(manage_shops)
@@ -181,8 +187,10 @@ switch global.state {
 	break;
 	*/
 	case "manage_trade_1":
+		//play sound effect
 		obj_audio.state_sfx = "menu_open"
 		
+		//menu controls
 		move_arrayed_cursor(trade_shops)
 		
 		reset_option(trade_shops)
@@ -195,6 +203,7 @@ switch global.state {
 	break;
 	
 	case "pause":
+		//play sound effect
 		obj_audio.state_sfx = "menu_open"
 		
 		if(!controls_flag){move_arrayed_cursor(pause_menu)}
@@ -274,8 +283,10 @@ switch global.state {
 	break;
 	
 	case "player_action":
+		//play sound effect
 		obj_audio.state_sfx = "menu_open"
 		
+		//menu controls
 		move_arrayed_cursor(player_action)
 		
 		reset_option(player_action)
@@ -288,16 +299,20 @@ switch global.state {
 	break;
 	
 	case "player_poor":
+		//play sound effect
 		obj_audio.state_sfx = "menu_open"
 		
+		//menu controls
 		move_arrayed_cursor(player_poor)
 		
 		reset_option(player_poor)
 	break;
 	
 	case "player_stop":
+		//play sound effect
 		obj_audio.state_sfx = "menu_open"
 		
+		//menu controls
 		move_arrayed_cursor(yes_no)
 		
 		reset_option(yes_no)
@@ -306,34 +321,42 @@ switch global.state {
 	
 	
 	case "shop_buy":
+		//play sound effect
 		obj_audio.state_sfx = "menu_open"
 		
+		//menu controls
 		move_arrayed_cursor(yes_no)
 		
 		reset_option(yes_no)
 	break;
 	
 	case "shop_invest_2":
+		//play sound effect
 		obj_audio.state_sfx = "menu_open"
 		
+		//menu controls - raise number
 		if key_pressed(global.key_up) {
 			current_number[pointer] = loop(current_number[pointer],1,numbers)
 		}
 		
+		//menu controls - raise digit
 		if key_pressed(global.key_left) {
 			pointer--
 			pointer = clamp(pointer,0,2)
 		}
 		
+		//menu controls - lower number
 		if key_pressed(global.key_down) {
 			current_number[pointer] = loop(current_number[pointer],-1,numbers)
 		}
 		
+		//menu controls - lower digit
 		if key_pressed(global.key_right) {
 			pointer++
 			pointer = clamp(pointer,0,2)
 		}
 		
+		//menu controls - confirm
 		if key_pressed(global.key_select) {
 			selected = current_number[0]*100 + current_number[1]*10 + current_number[2]
 			if selected > obj_game.selected.properties.capital_max - obj_game.selected.properties.capital {
@@ -344,6 +367,7 @@ switch global.state {
 			readyflag = true
 		}
 		
+		//menu controls - return
 		if key_pressed(global.key_back) {
 			pointer = 3
 			current_number = [0,0,0]
@@ -352,42 +376,52 @@ switch global.state {
 	break;
 	
 	case "shop_self":
+		//play sound effect
 		obj_audio.state_sfx = "menu_open"
 		
+		//menu controls
 		move_arrayed_cursor(yes_no)
 		
 		reset_option(yes_no)
 	break;
 	
 	case "stocks_ask":
+		//play sound effect
 		obj_audio.state_sfx = "menu_open"
 		
+		//menu controls
 		move_arrayed_cursor(yes_no)
 		
 		reset_option(yes_no)
 	break;
 	
 	case "stocks_buy_2":
+		//play sound effect
 		obj_audio.state_sfx = "menu_open"
 		
+		//menu controls - raise number
 		if key_pressed(global.key_up) {
 			current_number[pointer] = loop(current_number[pointer],1,numbers)
 		}
 		
+		//menu controls - raise digit
 		if key_pressed(global.key_left) {
 			pointer--
 			pointer = clamp(pointer,1,2)
 		}
 		
+		//menu controls - lower number
 		if key_pressed(global.key_down) {
 			current_number[pointer] = loop(current_number[pointer],-1,numbers)
 		}
 		
+		//menu controls - lower digit
 		if key_pressed(global.key_right) {
 			pointer++
 			pointer = clamp(pointer,1,2)
 		}
 		
+		//menu controls - confirm
 		if key_pressed(global.key_select) {
 			selected = current_number[0]*100 + current_number[1]*10 + current_number[2]
 			if selected > floor(global.player.readycash / global.stock_prices[obj_game.selected]) {
@@ -398,6 +432,7 @@ switch global.state {
 			readyflag = true
 		}
 		
+		//menu controls - return
 		if key_pressed(global.key_back) {
 			pointer = 3
 			current_number = [0,0,0]
@@ -406,26 +441,32 @@ switch global.state {
 	break;
 	
 	case "stocks_sell_2":
+		//play sound effect
 		obj_audio.state_sfx = "menu_open"
 		
+		//menu controls - raise number
 		if key_pressed(global.key_up) {
 			current_number[pointer] = loop(current_number[pointer],1,numbers)
 		}
 		
+		//menu controls - raise digit
 		if key_pressed(global.key_left) {
 			pointer--
 			pointer = clamp(pointer,0,2)
 		}
 		
+		//menu controls - lower number
 		if key_pressed(global.key_down) {
 			current_number[pointer] = loop(current_number[pointer],-1,numbers)
 		}
 		
+		//menu controls - lower digit
 		if key_pressed(global.key_right) {
 			pointer++
 			pointer = clamp(pointer,0,2)
 		}
 		
+		//menu controls - confirm
 		if key_pressed(global.key_select) {
 			selected = current_number[0]*100 + current_number[1]*10 + current_number[2]
 			if selected > global.player.stocks[obj_game.selected] {
@@ -436,6 +477,7 @@ switch global.state {
 			readyflag = true
 		}
 		
+		//menu controls - return
 		if key_pressed(global.key_back) {
 			pointer = 3
 			current_number = [0,0,0]
@@ -444,6 +486,7 @@ switch global.state {
 	break;
 	
 	case "turn_end":
+		//load start of transition effect (if player not poor)
 		if global.player.readycash >= 0 {
 			anim_timer_ref = 30
 			anim_timer++
@@ -456,6 +499,7 @@ switch global.state {
 	break;
 	
 	case "turn_start":
+		//load end of transition effect
 		anim_timer_ref = 30
 		anim_timer++
 		if anim_timer == anim_timer_ref {

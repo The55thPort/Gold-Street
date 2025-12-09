@@ -1,3 +1,4 @@
+//Controls for Themed Menu
 if theme != -1 {
 	
 	switch state {
@@ -82,6 +83,7 @@ if theme != -1 {
 	
 }
 
+//Default Menu Controls
 else {
 
 	switch state {

@@ -1,3 +1,6 @@
+//OBJ_MENU - Visible, handles in-game menus and UI
+/////////////////////////////////////////////////////
+//Initialize Variables
 readyflag = false
 controls_flag = false
 

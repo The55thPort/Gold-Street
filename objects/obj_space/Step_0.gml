@@ -1,6 +1,8 @@
+//Set Location
 x = properties.x
 y = properties.y
 
+//Set Properties
 switch properties.type {
 	
 	case "bank":
@@ -13,6 +15,7 @@ switch properties.type {
 	
 	case "shop":
 		sprite_index = spr_shop
+		//set shop variables if shop owned
 		if properties.owner != noone {
 			image_blend = properties.owner.color
 			var pos = 0
@@ -64,7 +67,7 @@ switch properties.type {
 	
 	case "suit-change":
 		sprite_index = spr_suit_base_change
-		
+		//if space walked on, switch suit
 		var suit_next = properties.suit_display + 1
 		if suit_next == 4 {suit_next -= 4}
 		

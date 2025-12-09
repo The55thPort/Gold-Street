@@ -1,3 +1,6 @@
+//OBJ_PERSISTENT - Invisible, initializes most global variables and carries information between rooms
+/////////////////////////////////////////////////////
+//Initialize Variables
 global.key_up = ord("W")
 global.key_left = ord("A")
 global.key_down = ord("S")

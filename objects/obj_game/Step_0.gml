@@ -123,6 +123,7 @@ switch global.state {
 		if obj_menu.readyflag == true {
 			obj_menu.readyflag = false
 			
+			//at start of turn, change state depending on player action
 			if obj_menu.selected == "Roll" {global.state = "dice_roll"}
 			else if obj_menu.selected == "View Board" {
 				state_stored_prev_2 = "player_action"
@@ -138,20 +139,25 @@ switch global.state {
 	break;
 	
 	case "player_move":
+		//if player reaches bank...
 		if global.board[global.player.current_position].properties.type == "bank" && global.player.x == global.board[global.player.current_position].x + 8 && global.player.y == global.board[global.player.current_position].y + 8 {
+			//...with target amount, declare them a winner
 			if global.player.net_worth >= global.target_amount {
 				if global.player.readyflag == true {global.player.readyflag = false}
 				global.state = "player_victory"
 			}
+			//...with all suits, promote them
 			else if global.player.promotion == true {
 				global.state = "player_promotion"
 			}
+			//...moving forward on their path, ask about stocks.
 			else if global.board[global.player.current_position].properties.stocks_ask = true && array_length(global.player.current_path) != 0 {
 				state_stored_next_2 = "player_move"
 				global.state = "stocks_ask"
 			}
 		}
 		
+		//bandaid code, prevents a common glitch when you land directly on the bank
 		if global.player.readyflag == true && global.state != "player_promotion" && global.state != "player_victory" && global.state != "stocks_ask" {
 			global.player.readyflag = false
 			global.state = "player_stop"
@@ -159,6 +165,7 @@ switch global.state {
 	break;
 	
 	case "player_poor":
+		//if player is too poor, change state depending on player action
 		if obj_menu.readyflag == true {
 			obj_menu.readyflag = false
 			if obj_menu.selected = "Sell Stocks" {
@@ -180,15 +187,18 @@ switch global.state {
 	break;
 	
 	case "player_promotion":
-		log("You got a promotion!")
-		global.player.suits = [ 0,0,0,0 ]
-		var divider = 10
-		if array_length(players) >= 5 {divider = 5}
-		global.player.readycash += global.salary_base + (global.salary_increment * global.player.level) + floor(global.player.shops_value / divider)
-		global.player.level++
+		//promote player
+		log("You got a promotion!") //record to output
+		global.player.suits = [ 0,0,0,0 ] //remove player suits
+		var divider = 10 //used in the regular salary calculations
+		if array_length(players) >= 5 {divider = 5} //increases salary if 5+ players on board, allows faster growth.
+		global.player.readycash += global.salary_base + (global.salary_increment * global.player.level) + floor(global.player.shops_value / divider) //give player their salary
+		global.player.level++ //increase player level
+		//if new net worth is over target amount, declare player victory
 		if global.player.net_worth + global.salary_base + (global.salary_increment * (global.player.level - 1)) + floor(global.player.shops_value / divider) >= global.target_amount {
 			global.state = "player_victory"
 		}
+		//ask player about stocks
 		else {
 			state_stored_next_2 = "player_move"
 			global.state = "stocks_ask"
@@ -196,6 +206,7 @@ switch global.state {
 	break;
 	
 	case "player_stop":
+		//if player has no spaces left to move, change state depending on player action
 		if obj_menu.readyflag == true {
 			obj_menu.readyflag = false
 			
@@ -217,7 +228,7 @@ switch global.state {
 	break;
 	
 	case "player_victory":
-		
+		//currently blank. game just softlocks when beaten.
 	break;
 	
 	/////////////////////////////////////////////////////
@@ -227,6 +238,7 @@ switch global.state {
 		if obj_menu.readyflag == true {
 			obj_menu.readyflag = false
 			
+			//purchase shop
 			if obj_menu.selected == "Yes" {
 				global.board[global.player.current_position].properties.owner = global.player
 				array_push(global.player.shops,global.board[global.player.current_position])
@@ -239,6 +251,7 @@ switch global.state {
 	break;
 	
 	case "shop_invest_1":
+		//set the initial number for the selector
 		if selected.properties.capital_max - selected.properties.capital < 1000 {
 			var pos = string_length(string(selected.properties.capital_max - selected.properties.capital))
 			var pos2 = 2
@@ -257,6 +270,7 @@ switch global.state {
 	case "shop_invest_2":
 		if obj_menu.readyflag == true {
 			obj_menu.readyflag = false
+			//when player selects amount to invest, change state depending on player action
 			if obj_menu.pointer != 3 {
 				selected.properties.capital += obj_menu.selected
 				global.player.readycash -= obj_menu.selected
@@ -276,9 +290,11 @@ switch global.state {
 	break;
 	
 	case "shop_pay":
+		//directly pay the owner of the shop
 		global.player.readycash -= global.board[global.player.current_position].properties.price
 		global.board[global.player.current_position].properties.owner.readycash += global.board[global.player.current_position].properties.price
 		
+		//pay out the district's stockholders
 		var district = global.board[global.player.current_position].properties.district_number
 		var player = 0
 		var total_shares = 0
@@ -313,6 +329,7 @@ switch global.state {
 		if obj_menu.readyflag == true {
 			obj_menu.readyflag = false
 			
+			//when choosing to invest, change state depending on player action
 			if obj_menu.selected == "Yes" {
 				state_stored_prev = "shop_self"
 				state_stored_next = "shop_invest_1"
@@ -325,10 +342,12 @@ switch global.state {
 	break;
 	
 	case "shop_sell":
+		//sell shop
 		global.player.readycash += floor(selected.properties.value * 0.75)
 		selected.properties.owner = noone
 		array_delete(global.player.shops,array_get_index(global.player.shops,selected),1)
 		selected.properties.capital = 0
+		//end turn if player was forced to sell
 		if state_stored_prev == "player_poor" {
 			state_stored_next = "turn_end"
 		}
@@ -371,15 +390,18 @@ switch global.state {
 	
 	case "space_execute":
 	
+		//play minigame at arcade
 		if global.board[global.player.current_position].properties.type == "arcade" {
 			global.state = "arcade_setup"
 		}
 		
+		//unlock player's direction at bank
 		else if global.board[global.player.current_position].properties.type == "bank" {
 			global.player.previous_position = -1
 			global.state = "turn_end"
 		}
 		
+		//buy, pay, or invest at shops
 		else if global.board[global.player.current_position].properties.type == "shop" {
 			if global.board[global.player.current_position].properties.owner == noone {
 				global.state = "shop_buy"
@@ -392,6 +414,7 @@ switch global.state {
 			}
 		}
 		
+		//draw random venture card at ventures/suits.
 		else if global.board[global.player.current_position].properties.type == "venture" or global.board[global.player.current_position].properties.type == "suit" or global.board[global.player.current_position].properties.type == "suit-change" {
 			global.state = "venture_execute"
 		}
@@ -410,6 +433,7 @@ switch global.state {
 		if obj_menu.readyflag == true {
 			obj_menu.readyflag = false
 			
+			//when choosing to buy stocks, change state depending on player action
 			if obj_menu.selected == "Yes" {
 				state_stored_next = "stocks_buy_1"
 				state_stored_prev = "stocks_ask"
@@ -421,11 +445,13 @@ switch global.state {
 				}
 				global.state = "player_move"
 			}
+			//prevent asking for stocks again when going backwards
 			global.board[global.player.current_position].properties.stocks_ask = false
 		}
 	break;
 	
 	case "stocks_buy_1":
+		//calculate number to use for selector
 		number = floor(global.player.readycash / global.stock_prices[selected])
 		if number < 100 {
 			var pos = string_length(string(number))
@@ -447,6 +473,7 @@ switch global.state {
 		if obj_menu.readyflag == true {
 			obj_menu.readyflag = false
 			
+			//when player selects amount to buy, change state depending on player action
 			if obj_menu.pointer != 3 {
 				global.player.stocks[selected] += obj_menu.selected
 				global.player.readycash -= obj_menu.selected * global.stock_prices[selected]
@@ -468,6 +495,7 @@ switch global.state {
 	break;
 	
 	case "stocks_sell_1":
+		//calculate number to use for selector
 		number = global.player.stocks[selected]
 		if number < 1000 {
 			var pos = string_length(string(number))
@@ -485,6 +513,7 @@ switch global.state {
 	break;
 	
 	case "stocks_sell_2":
+		//when player selects amount to sell, change state depending on player action
 		if obj_menu.readyflag == true {
 			obj_menu.readyflag = false
 			
@@ -508,11 +537,13 @@ switch global.state {
 	//Turn Logic
 	
 	case "turn_end":
+		//disallow the turn to end if player is broke
 		if global.player.readycash < 0 {
 			global.state = "player_poor"
 			exit;
 		}
 		
+		//reset board variables, push player to background, move to next player
 		if obj_menu.readyflag == true {
 			obj_menu.readyflag = false
 			with obj_space {
@@ -530,6 +561,7 @@ switch global.state {
 	break;
 	
 	case "turn_start":
+		//bring player from background
 		if obj_menu.anim_timer == 2 {
 			global.player.depth -= 1
 			global.player.image_alpha = 1
@@ -544,7 +576,9 @@ switch global.state {
 	//Venture Logic
 	
 	case "venture_execute":
+		//executes a random venture card
 		ExecuteVenture(irandom_range(1,16))
+		//i don't know why i wrote this instead of just "global.state = "turn_end""
 		if global.state == "venture_execute" {
 			global.state = "turn_end"
 		}
@@ -554,6 +588,7 @@ switch global.state {
 	//Wait
 	
 	case "wait":
+		//inserts a pause before going to next state
 		timer--
 		if timer == 0 {
 			global.state = state_stored_next
