@@ -23,9 +23,6 @@ switch global.state {
 	case "dice_roll":
 		if menu_toggle == 0 {stats_draw(global.player,0)}
 		
-		//my attempt at creating a notification hud, the text size would need to be increased and centered
-		menu = menu_draw(22,118,200,25)
-		draw_text(menu[0],menu[1],"Rolling Dice...")
 	break;
 	
 	case "district_select":
@@ -56,45 +53,71 @@ switch global.state {
 		draw_menu_text(manage_shops, menu[0], menu[1])
 		
 	break;
-	/*
 	case "manage_auction":
-		if menu_toggle == 0 {
-			stats_draw(global.player,0)
-		}
-		
-		menu = menu_draw(2,2,string_width("Trade Shops")+10,50)
-		
-		draw_menu_text(manage_shops, menu[0], menu[1])
-		
+		switch(global.substate){
+			case 1:
+				menu = menu_draw(2,2,string_width("Sell for " + string(floor(obj_game.selected.properties.value * 0.75)) +"?")+10, 41)
+				draw_text(menu[0],menu[1],"Sell for " + string(floor(obj_game.selected.properties.value * 0.75)) +"?")
+				draw_menu_text(yes_no, menu[0], menu[1]+12)
+				break;
+			case 2:
+				menu = menu_draw(2,2,string_width("This shop is currently up for auction")+15, 21)
+				draw_text(menu[0],menu[1],"This shop is currently up for auction")
+				//so how the hell are we doing the auction system with eight players
+				//honestly let's call it here for now
+				break;
+		}				
 	break;
+	
 	case "manage_buy":
 		if menu_toggle == 0 {
 			stats_draw(global.player,0)
+			switch(global.substate){
+				case 1:
+				break;
+				//we don't have the ui for this right now
+			}
+			
 		}
-		
-		menu = menu_draw(2,2,string_width("Trade Shops")+10,50)
-		
-		draw_menu_text(manage_shops, menu[0], menu[1])
-		
 	break;
+	
 	case "manage_sell":
 		if menu_toggle == 0 {
 			stats_draw(global.player,0)
+			switch(global.substate){
+				case 1:
+				break;
+				//we don't have the ui for this right now
+			}
+			
+		}
+	break;
+
+	case "manage_trade":
+		switch(global.substate){
+			case 0:
+				if menu_toggle == 0 {stats_draw(global.player,0)}
+		
+				menu = menu_draw(2,2,string_width("Give how many?")+10,40)
+				draw_text(menu[0],menu[1],"Give how many?")
+		
+				draw_menu_text(trade_shops, menu[0], menu[1]+12)
+				break;
+			case 1:
+				if menu_toggle == 0 {stats_draw(global.player,0)}
+		
+				menu = menu_draw(2,2,string_width("Receive how many?")+10,40)
+				draw_text(menu[0],menu[1],"Receive how many?")
+		
+				draw_menu_text(trade_shops, menu[0], menu[1]+12)
+				break;
+			case 2:
+				menu = menu_draw(2,2,string_width("These shops are being traded")+15, 21)
+				draw_text(menu[0],menu[1],"These shops are being traded")
+				break;
+				//we're calling this here
 		}
 		
-		menu = menu_draw(2,2,string_width("Trade Shops")+10,50)
-		
-		draw_menu_text(manage_shops, menu[0], menu[1])
-		
-	break;
-	*/
-	case "manage_trade_1":
-		if menu_toggle == 0 {stats_draw(global.player,0)}
-		
-		menu = menu_draw(2,2,string_width("Exchange how many?")+10,40)
-		draw_text(menu[0],menu[1],"Exchange how many?")
-		
-		draw_menu_text(trade_shops, menu[0], menu[1]+12)
 		
 	break;
 	
@@ -173,6 +196,11 @@ switch global.state {
 			draw_text_color(menu[0], menu[1]+24+12*(i), player_poor[i], color, color, color, color, 1)
 		}
 	break;
+	
+	case "player_shopless":
+		menu = menu_draw(22,68,200,25)
+		draw_text((200+188)/4,menu[1],"you shopless bitch")
+	break;
 
 	case "player_stop": 
 		menu = menu_draw(2,2,string_width("Stop here?")+10,41)
@@ -180,6 +208,7 @@ switch global.state {
 	
 		draw_menu_text(yes_no, menu[0], menu[1]+12)
 	break;
+	
 
 	case "shop_buy":
 	
@@ -262,7 +291,33 @@ if menu_toggle == 1 {
 	until player = 0
 }
 
+//this last part is specifically for the bottom right text
 if(!obj_game.paused){
-	if(!obj_game.viewing_board){draw_text(10,200, controls_ui[7] + key_name(game_controls[7]))}
-	else{draw_text(10,200, "Go back: " + key_name(game_controls[7]))}
+	switch(global.state){
+		case "select_square_on_board":
+			switch(obj_game.state_stored_next){
+				case "manage_auction":
+					draw_text(10,200, "Select a square to auction: ")
+					break;
+				case "manage_trade":
+					draw_text(10,200, "Select a square to trade: (" + string(obj_game.trade_counter) + " remain)")
+					//we also have to do a receive version
+					break;
+				case "manage_buy":
+					draw_text(10,200, "Select a square to buy: ")
+					break;
+				case "manage_sell":
+					draw_text(10,200, "Select a square to sell: ")
+					break;
+			}
+			break;
+		case "view_board":
+			draw_text(10,200, "Go back: " + key_name(game_controls[7]))
+			break;
+		case "manage_auction":
+			break;
+		default:
+			draw_text(10,200, controls_ui[7] + key_name(game_controls[7]))
+			break;
+	}
 }

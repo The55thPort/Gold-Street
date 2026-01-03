@@ -9,7 +9,7 @@ if room == rm_game {
 
 	switch global.state {
 	
-		case "board_select":
+		case "select_square_on_board":
 			//allow player control over camera to select a space
 			
 			sprite_index = spr_camera
@@ -34,16 +34,25 @@ if room == rm_game {
 				if x > right - 16 {x -= scroll_speed}
 			}
 		
-			if keyboard_check_pressed(global.key_select) {
+			if keyboard_check_pressed(global.key_select) { // selects the shop
+				log("giving : " +string(obj_game.give_or_receive))
 				var space = instance_position(x+8,y+8,obj_space)
 				if space != noone {
-					if space.properties.type == selecting {
-				
-						if space.properties.type == "shop" {
-							if space.properties.owner == selecting_sub {
+					if space.properties.type == selecting { // we check if the type is the same as selecting, which is "shop"...
+						if space.properties.type == "shop" {// and then we check if it's shop???
+							if (space.properties.owner == selecting_sub && obj_game.state_stored_next != "manage_buy" && obj_game.give_or_receive) { //for situations where we want to select our own shop
 								selected = space
 								sprite_index = noone
 								readyflag = true
+							}else if(!obj_game.give_or_receive || obj_game.state_stored_next == "manage_buy") { // if we want to select someone else's shop
+								for(var i = 0; i < array_length(obj_game.players); i++){
+									if space.properties.owner == obj_game.players[i] && obj_game.players[i] != global.player {
+										selected = space
+										sprite_index = noone
+										readyflag = true
+										log("selected: " +string(selected))
+									}
+								}
 							}
 						}
 				

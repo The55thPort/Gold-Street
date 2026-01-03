@@ -1,5 +1,21 @@
 global.player = array_get(players, current_player)
 
+function sell_shop(){
+	global.player.readycash += floor(selected.properties.value * 0.75)
+	selected.properties.owner = noone
+	array_delete(global.player.shops,array_get_index(global.player.shops,selected),1)
+	selected.properties.capital = 0
+}
+
+function select_shop(prev_state){
+	state_stored_prev = "manage_shops"
+	state_stored_next = prev_state
+	obj_camera.selecting = "shop"
+	obj_camera.selecting_sub = global.player
+	global.state = "select_square_on_board"
+	obj_camera.sprite_index = spr_camera
+}
+
 var number = 0
 
 switch global.state {
@@ -27,11 +43,31 @@ switch global.state {
 		//this is just board_view but you select a square on the board to move on to the next state
 		if obj_camera.readyflag = true {
 			obj_camera.readyflag = false
-			if obj_camera.selected != noone {
-				selected = obj_camera.selected
-				global.state = state_stored_next
+			if obj_camera.selected != noone { // if there is something selected
+				if(trade_counter > 0){ //checks if we are doing trading
+					if(give_or_receive && ds_list_find_index(shops_to_give, obj_camera.selected) == -1){ // are we giving or receiving?
+						log("give index: " + string(ds_list_find_index(shops_to_give, obj_camera.selected)))
+						ds_list_add(shops_to_give, obj_camera.selected);
+						trade_counter--;
+					}
+					else if(!give_or_receive && ds_list_find_index(shops_to_receive, obj_camera.selected) == -1){
+						log("receive index: " + string(ds_list_find_index(shops_to_receive, obj_camera.selected)))
+						ds_list_add(shops_to_receive, obj_camera.selected);
+						trade_counter--;
+					}
+				}
+				if(trade_counter <= 0){
+					give_or_receive = false
+					selected = obj_camera.selected
+					global.state = state_stored_next // goes to whatever state was stored here, refer to the states that store it
+				}
+				log("trade counter: " + string(trade_counter))
 			}
-			else global.state = state_stored_prev
+			else {
+				log("previous state: " + string(state_stored_prev))
+				global.state = state_stored_prev
+				global.substate =0
+				}
 		}
 	break;
 	
@@ -117,6 +153,126 @@ switch global.state {
 	break;
 	
 	/////////////////////////////////////////////////////
+	//Shop Management
+	
+	case "manage_shops":
+	
+		if obj_menu.readyflag == true {
+			obj_menu.readyflag = false
+			global.state = "player_action"
+			}
+			
+		if obj_menu.selected == "Auction"{
+			if (array_length(global.player.shops) > 0) {global.state = "manage_auction"}
+			else{global.state = "player_shopless"}
+			}
+		else if obj_menu.selected == "Buy Shop"{
+			if (array_length(global.player.shops) > 0) {global.state = "manage_buy"}// this should actually check if nobody else has a shop
+			//but we'll get to that eventually
+			else{global.state = "player_shopless"}
+			}
+		else if obj_menu.selected == "Sell Shop"{
+			if (array_length(global.player.shops) > 0) {global.state = "manage_sell"} 
+			else{global.state = "player_shopless"}
+		}
+		else if obj_menu.selected == "Trade Shop"{
+			if (array_length(global.player.shops) > 0) {global.state = "manage_trade"}
+			else{global.state = "player_shopless"}
+		}
+	
+		break;
+	
+	case "manage_auction":
+		switch (global.substate){
+			case 0:
+				select_shop("manage_auction")
+				global.substate = 1
+				log("new state:" + global.state)
+	
+				if obj_menu.selected == noone {global.state = "player_action"}
+				break;
+			case 1:
+				if obj_menu.readyflag == true {
+					obj_menu.readyflag = false;
+					if obj_menu.selected == "Yes" {
+						sell_shop();
+						global.substate++;
+					}else{global.substate--;}
+				}
+				break;
+		}
+	break;
+	
+	case "manage_buy":
+		switch (global.substate){
+			case 0:
+				select_shop("manage_buy")
+				global.substate = 1
+				log("new state:" + global.state)
+	
+				if obj_menu.selected == noone {global.state = "player_action"}
+				break;
+			case 1:
+				if obj_menu.readyflag == true {
+					obj_menu.readyflag = false;
+					
+				}
+				break;
+		}
+	break;
+	
+	case "manage_sell":
+		switch (global.substate){
+			case 0:
+				select_shop("manage_sell")
+				global.substate = 1
+				log("new state:" + global.state)
+	
+				if obj_menu.selected == noone {global.state = "player_action"}
+				break;
+			case 1:
+				if obj_menu.readyflag == true {
+					obj_menu.readyflag = false;
+
+				}
+				break;
+		}
+	break;
+	
+	case "manage_trade":
+		switch(global.substate){
+			case 0:
+				if obj_menu.readyflag == true {
+					obj_menu.readyflag = false
+					global.state = "player_action"
+					if(obj_menu.selected != noone){
+						if obj_menu.selected == "Two Shops" {trade_counter = 2}
+						else if obj_menu.selected == "One Shop"{trade_counter = 1}
+						select_shop("manage_trade")
+						global.substate++;
+					}
+				}
+				break;
+			case 1:
+				if obj_menu.readyflag == true {
+					obj_menu.readyflag = false
+					global.state = "player_action"
+					if(obj_menu.selected != noone){
+						if obj_menu.selected == "Two Shops" {trade_counter = 2}
+						else if obj_menu.selected == "One Shop"{trade_counter = 1}
+						select_shop("manage_trade")
+						global.substate++;
+					}
+				}
+				break;
+			case 2:
+				trade_counter = 0;
+				break;
+		}
+		
+	break;
+	
+	/////////////////////////////////////////////////////
 	//Player Logic
 	
 	case "player_action":
@@ -132,11 +288,10 @@ switch global.state {
 			else if obj_menu.selected == "Manage Shops" {global.state = "manage_shops"}
 			else if obj_menu.selected == "Save" {global.state = "game_save"}
 			
-			if obj_menu.selected = -1 {
-				room_goto(rm_mainmenu)
-			}
+			if obj_menu.selected = -1 {room_goto(rm_mainmenu)}
 		}
 	break;
+	
 	
 	case "player_move":
 		//if player reaches bank...
@@ -203,6 +358,10 @@ switch global.state {
 			state_stored_next_2 = "player_move"
 			global.state = "stocks_ask"
 		}
+	break;
+	
+	case "player_shopless":
+		if obj_menu.readyflag == true {global.state = "player_action"}
 	break;
 	
 	case "player_stop":
@@ -342,47 +501,13 @@ switch global.state {
 	break;
 	
 	case "shop_sell":
-		//sell shop
-		global.player.readycash += floor(selected.properties.value * 0.75)
-		selected.properties.owner = noone
-		array_delete(global.player.shops,array_get_index(global.player.shops,selected),1)
-		selected.properties.capital = 0
+		sell_shop();
 		//end turn if player was forced to sell
 		if state_stored_prev == "player_poor" {
 			state_stored_next = "turn_end"
 		}
 		timer = 120
 		global.state = "wait"
-	break;
-	
-	/////////////////////////////////////////////////////
-	//Shop Management
-	
-	case "manage_shops":
-	
-	if obj_menu.readyflag == true {global.state = "player_action"}
-	
-	if obj_menu.selected == "Auction" {global.state = "manage_auction"}
-	else if obj_menu.selected == "Buy Shop" {global.state = "manage_buy"}
-	else if obj_menu.selected == "Sell Shop" {global.state = "manage_sell"}
-	else if obj_menu.selected == "Trade Shop" {global.state = "manage_trade_1"}
-	
-	break;
-	
-	case "manage_auction":
-	if obj_menu.selected == noone {global.state = "manage_shops"}
-	break;
-	
-	case "manage_buy":
-	if obj_menu.selected == noone {global.state = "manage_shops"}
-	break;
-	
-	case "manage_sell":
-	if obj_menu.selected == noone {global.state = "manage_shops"}
-	break;
-	
-	case "manage_trade_1":
-	if obj_menu.selected == noone {global.state = "manage_shops"}
 	break;
 	
 	/////////////////////////////////////////////////////
@@ -615,7 +740,7 @@ if(key_pressed(global.key_pause)){
 	}
 }
 
-if(key_pressed(global.key_view) && !paused && !obj_player_parent.moving){
+if(key_pressed(global.key_view) && !paused && !obj_player_parent.moving && global.state != "manage_auction" && global.state != "select_square_on_board"){
 	if(!viewing_board){
 		obj_camera.sprite_index = spr_camera
 		obj_menu.state_stored_prev_2 = global.state

@@ -3,6 +3,7 @@
 //Prepare Loading Save File (if necessary)
 
 global.state = "turn_start"
+global.substate = 0
 if obj_persistent.file_selected != "New Game" {
 	global.state = "game_load"
 }
@@ -34,3 +35,9 @@ repeat (array_length(players)) {
 current_player = 0
 
 /////////////////////////////////////////////////////
+//Variables needed for shop management
+
+give_or_receive = true; //give = true, receive = false.
+trade_counter = 0;
+shops_to_give = ds_list_create();
+shops_to_receive = ds_list_create();

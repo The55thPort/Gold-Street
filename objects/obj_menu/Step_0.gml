@@ -33,6 +33,15 @@ function array_find_string(_array, _string) {
     return -1;
 }
 
+function previous_state(){
+	if key_pressed(global.key_back) {
+		selected = noone
+		pointer = 0
+		page = 0
+		readyflag = true
+	}
+}
+
 var pointer_temp = pointer
 var i = 0
 
@@ -102,12 +111,7 @@ switch global.state {
 			readyflag = true
 		}
 		
-		if key_pressed(global.key_back) {
-			selected = noone
-			pointer = 0
-			page = 0
-			readyflag = true
-		}
+		previous_state();
 		
 	break;
 	
@@ -120,11 +124,7 @@ switch global.state {
 		
 		reset_option(choose_file)
 		
-		if key_pressed(global.key_back) {
-			selected = noone
-			pointer = 0
-			readyflag = true
-		}
+		previous_state();
 	break;
 	
 	case "manage_shops"://this state is unfinished and abandoned for now
@@ -136,39 +136,34 @@ switch global.state {
 		
 		reset_option(manage_shops)
 		
-		if key_pressed(global.key_back) {
-			selected = noone
-			pointer = 0
-			readyflag = true
-		}
+		previous_state();
 	break;
 	
-	/*
 	case "manage_auction":
 		obj_audio.state_sfx = "menu_open"
 		
-		move_arrayed_cursor(manage_shops)
-		
-		reset_option(manage_shops)
-		
-		if key_pressed(global.key_back) {
-			selected = noone
-			pointer = 0
-			readyflag = true
+		switch(global.substate){
+			case 1:
+				move_arrayed_cursor(yes_no)
+				if key_pressed(global.key_select) {
+					selected = yes_no[pointer]
+					pointer = 0
+					readyflag = true
+				}
+			break;
 		}
+		
+		previous_state();// maybe not need this
 	break;
 	
+	//buy and sell are unfinished
 	case "manage_buy":
 		obj_audio.state_sfx = "menu_open"
 		
-		move_arrayed_cursor(manage_shops)
-		
-		reset_option(manage_shops)
-		
-		if key_pressed(global.key_back) {
-			selected = noone
-			pointer = 0
-			readyflag = true
+
+		switch(global.substate){
+			case 1:
+			break;
 		}
 	break;
 	
@@ -185,20 +180,32 @@ switch global.state {
 			readyflag = true
 		}
 	break;
-	*/
-	case "manage_trade_1":
-		//play sound effect
+	
+	case "manage_trade":
 		obj_audio.state_sfx = "menu_open"
 		
-		//menu controls
-		move_arrayed_cursor(trade_shops)
-		
-		reset_option(trade_shops)
-		
-		if key_pressed(global.key_back) {
-			selected = noone
-			pointer = 0
-			readyflag = true
+		switch(global.substate){
+			case 0:
+				move_arrayed_cursor(trade_shops)
+				if key_pressed(global.key_select) {
+					selected = trade_shops[pointer]
+					pointer = 0
+					readyflag = true
+				}
+				previous_state()
+				break;
+			case 1:
+				move_arrayed_cursor(trade_shops)
+				if key_pressed(global.key_select) {
+					selected = trade_shops[pointer]
+					pointer = 0
+					readyflag = true
+				}
+				previous_state()
+				break;
+			case 2: 
+				
+				break;
 		}
 	break;
 	
@@ -308,6 +315,11 @@ switch global.state {
 		reset_option(player_poor)
 	break;
 	
+	case "player_shopless":
+	obj_audio.state_sfx = "menu_open"
+	reset_option(manage_shops)
+	break;
+	
 	case "player_stop":
 		//play sound effect
 		obj_audio.state_sfx = "menu_open"
@@ -318,7 +330,11 @@ switch global.state {
 		reset_option(yes_no)
 	break;
 	
-	
+	case "select_square_on_board":
+		if key_pressed(global.key_back) { //duct tape code
+			selected = noone
+		}
+	break;
 	
 	case "shop_buy":
 		//play sound effect

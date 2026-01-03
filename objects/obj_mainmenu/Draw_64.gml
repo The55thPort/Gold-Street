@@ -59,6 +59,8 @@ else {
 				}
 				draw_text_color(128,64+24*i,files[i],col,col,col,col,1)
 			}
+			//draw_text_color(128,200,"Press numbers to quick select files",col,col,col,col,1)
+			//make this text smaller eventually
 		break;
 	
 	}

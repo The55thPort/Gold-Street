@@ -139,6 +139,22 @@ else {
 				pointer = 0
 				room_goto(rm_game)
 			}
+			
+			if(keyboard_check_pressed(ord("1"))){
+				obj_persistent.file_selected = "save1.txt"
+				pointer = 0
+				room_goto(rm_game)
+			}
+			if(keyboard_check_pressed(ord("2"))){
+				obj_persistent.file_selected = "save2.txt"
+				pointer = 0
+				room_goto(rm_game)
+			}
+			if(keyboard_check_pressed(ord("3"))){
+				obj_persistent.file_selected = "save3.txt"
+				pointer = 0
+				room_goto(rm_game)
+			}
 		break;
 	}
 	

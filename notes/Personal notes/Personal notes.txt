@@ -1,5 +1,24 @@
-I figured out the board_select thing, I confused it for select_board, which DOES select the board. I renamed it to "select_square_on_board" to avoid future confusion.
+So here's what I've done:
 
-I wouldn't be against using substates for all future states, but I do think it's important to have some sort of consistency in the code. I guess we can say that if a state requires more than 3 states it'll use substates? I'll comment that somewhere in the code.
+-I've implemented the shop managing options as far as I can with the sprites that I have, which isn't that far.
 
-Also your GameMaker isn't up to date, I had a merge conflict because of that
+-I made a QOL improvement to the main menu, you instead of manually selecting a file you can just press the number it correlates to.
+
+-I added a proper dice sprite to the game instead of just the number in the corner, we'll make it look better eventually
+
+What I need:
+
+- There's some menu GUI stuff I ran into that I don't have the sprites for, mainly a larger shop sprite for when you hover over a shop and it gives you its stats. If you need further clarification, check how I did them on Fortune Project.
+
+Also, there's something weird on obj_camera's step script: on line 40, we check if the type is the same as selecting, which is "shop", and then on the next line, we check if it's "shop"? Why? There's no else statement that either of these go to.
+
+
+Alongside this, I've been looking into multiplayer stuff, and here's what I've got:
+
+There is a built-in online multiplayer in GameMaker, but it would require us to recode a lot of the game, alongside coding every scenario where somebody disconnects, so I think it'll be easier to tell people to use Parsec.
+
+When it comes to controllers, for eight player stuff, Windows will be fine, but we might have some problems with MacOS, and Linux would be even more complicated: (MacOS picture)
+
+We'll definitely have to look into this more eventually.
+
+
