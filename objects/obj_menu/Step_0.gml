@@ -525,5 +525,9 @@ switch global.state {
 		}
 	break;
 	
+	case "venture_execute":
+		if key_pressed(global.key_select) {readyflag = true}
+	break;
+	
 }
 

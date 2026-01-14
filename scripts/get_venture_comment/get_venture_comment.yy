@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"ExecuteVenture",
+  "%Name":"get_venture_comment",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"ExecuteVenture",
+  "name":"get_venture_comment",
   "parent":{
     "name":"Scripts",
     "path":"folders/Scripts.yy",

@@ -41,3 +41,5 @@ give_or_receive = true; //give = true, receive = false.
 trade_counter = 0;
 shops_to_give = ds_list_create();
 shops_to_receive = ds_list_create();
+
+venture_number = 0;

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"execute_venture",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"execute_venture",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

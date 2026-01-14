@@ -1,4 +1,4 @@
-//OBJ_DICE - Invisible (though shouldn't be), handles die-related logic
+//OBJ_DICE - handles die-related logic
 /////////////////////////////////////////////////////
 //Initialize Variables
 
@@ -8,7 +8,7 @@ global.die_sprites = [ spr_die_2 ]
 global.die_sprite_max = spr_die_max
 
 roll_min = 1
-roll_max = 6
+roll_max = 6 //editing these to fix the dice number doesn't seem to do anything, go to the end of step and set the number there instead
 
 timer = 0
 idle_timer = 20

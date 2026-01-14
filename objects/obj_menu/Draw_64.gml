@@ -199,7 +199,7 @@ switch global.state {
 	
 	case "player_shopless":
 		menu = menu_draw(22,68,200,25)
-		draw_text((200+188)/4,menu[1],"you shopless bitch")
+		draw_text(display_get_gui_width()/4,menu[1],"you shopless bitch")
 	break;
 
 	case "player_stop": 
@@ -275,6 +275,18 @@ switch global.state {
 	case "turn_start":
 		draw_sprite_ext(spr_black,0,256,0,-round(lerp(256,0,anim_timer / (anim_timer_ref-10))),112,0,c_white,1)
 		draw_sprite_ext(spr_black,0,0,112,round(lerp(256,0,anim_timer / (anim_timer_ref-10))),112,0,c_white,1)
+	break;
+	case "venture_execute":
+		switch(global.substate){
+			case 0:
+				menu = menu_draw(22,68,200,25)
+				draw_text(display_get_gui_width()/4,menu[1],"press F for a venture")
+				break;
+			case 1:
+				menu = menu_draw(22,68,200,25)
+				draw_text(display_get_gui_width()/4,menu[1],get_venture_comment(obj_game.venture_number))
+				break;
+		}
 	break;
 	
 }

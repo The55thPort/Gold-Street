@@ -701,12 +701,25 @@ switch global.state {
 	//Venture Logic
 	
 	case "venture_execute":
-		//executes a random venture card
-		ExecuteVenture(irandom_range(1,16))
-		//i don't know why i wrote this instead of just "global.state = "turn_end""
-		if global.state == "venture_execute" {
-			global.state = "turn_end"
+		switch(global.substate){
+			case 0:
+				if key_pressed(global.key_select) {irandom_range(1,23)}
+				break;
+			case 1:
+				if key_pressed(global.key_select) {
+					execute_venture(venture_number)
+					}
+				break;
+			case 2:
+				global.state = "turn_end"
+				global.substate = 0
+				break;
 		}
+		if obj_menu.readyflag == true {
+			obj_menu.readyflag = false
+			global.substate++
+		}
+		//executes a random venture card
 	break;
 	
 	/////////////////////////////////////////////////////

@@ -24,6 +24,7 @@ if readyflag == false {
 				diceroll = -1
 				readyflag = true
 			}
+
 		break;
 		
 	}
