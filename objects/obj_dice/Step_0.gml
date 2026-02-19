@@ -16,7 +16,7 @@ if readyflag == false {
 		
 			//roll the dice
 			if keyboard_check_pressed(global.key_select) {
-				diceroll = 4//irandom_range(roll_min,roll_max)
+				diceroll = irandom_range(roll_min,roll_max)
 				readyflag = true
 			}
 			
