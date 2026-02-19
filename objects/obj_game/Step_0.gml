@@ -16,6 +16,12 @@ function select_shop(prev_state){
 	obj_camera.sprite_index = spr_camera
 }
 
+function finish_turn(){
+	state_stored_next = "turn_end"
+	timer = 120
+	global.state = "wait"
+}
+
 var number = 0
 
 switch global.state {
@@ -84,16 +90,28 @@ switch global.state {
 	
 	case "dice_roll":
 		//pass the dice roll to the current player
-		if obj_dice.readyflag == true {
-			obj_dice.readyflag = false
-			if obj_dice.diceroll = -1 {
+		var dice_inst = noone;
+		if instance_exists(obj_dice) { dice_inst = instance_find(obj_dice, 0); }
+		if dice_inst != noone && dice_inst.readyflag == true {
+			dice_inst.readyflag = false
+			if dice_inst.diceroll = -1 {
 				state_stored_next = "player_action"
 				timer = 1
 				global.state = "wait"
 			}
 			else {
-				global.player.spaces_to_move = obj_dice.diceroll
+				global.player.spaces_to_move = dice_inst.diceroll
 				global.state = "player_move"
+				//the following is to get the districts actually being used
+				//it's clunky as fuck being here but it doesn't work in any create script so...
+				global.used_districts = 0;
+				for(var i = 0; i < array_length(global.stock_prices); i++){
+					if(global.stock_prices[i] >0){
+						global.used_districts++
+					}
+				}
+
+				log("used districts: " + string( global.used_districts))
 			}
 		}
 	break;
@@ -403,9 +421,7 @@ switch global.state {
 				array_push(global.player.shops,global.board[global.player.current_position])
 				global.player.readycash -= global.board[global.player.current_position].properties.value
 			}
-			state_stored_next = "turn_end"
-			timer = 120
-			global.state = "wait"
+			finish_turn()
 		}
 	break;
 	
@@ -433,9 +449,7 @@ switch global.state {
 			if obj_menu.pointer != 3 {
 				selected.properties.capital += obj_menu.selected
 				global.player.readycash -= obj_menu.selected
-				state_stored_next = "turn_end"
-				timer = 120
-				global.state = "wait"
+				finish_turn()
 			}
 			else {
 				obj_menu.pointer = 0
@@ -479,9 +493,7 @@ switch global.state {
 			}
 		}
 			
-		state_stored_next = "turn_end"
-		timer = 120
-		global.state = "wait"
+		finish_turn()
 	break;
 	
 	case "shop_self":
@@ -545,9 +557,7 @@ switch global.state {
 		}
 		
 		else {
-			state_stored_next = "turn_end"
-			timer = 90
-			global.state = "wait"
+			finish_turn()
 		}
 	break;
 	
@@ -703,22 +713,22 @@ switch global.state {
 	case "venture_execute":
 		switch(global.substate){
 			case 0:
-				if key_pressed(global.key_select) {irandom_range(1,23)}
+				if obj_menu.readyflag == true {irandom_range(1,66)}
 				break;
 			case 1:
-				if key_pressed(global.key_select) {
-					execute_venture(venture_number)
-					}
+				if obj_menu.readyflag == true {execute_venture(venture_number)}
 				break;
 			case 2:
-				global.state = "turn_end"
-				global.substate = 0
+				finish_turn();
+				global.substate = 0;
 				break;
 		}
+		
 		if obj_menu.readyflag == true {
 			obj_menu.readyflag = false
 			global.substate++
 		}
+		
 		//executes a random venture card
 	break;
 	

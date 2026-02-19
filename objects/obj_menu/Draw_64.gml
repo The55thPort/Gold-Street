@@ -30,7 +30,7 @@ switch global.state {
 		draw_text(menu[0],menu[1],"Page " + string(page+1))
 		draw_text(menu[0],menu[1]+12,"------")
 		
-		draw_menu_text(districts_display, menu[0], menu[1])
+		draw_menu_text(districts_display, menu[0], menu[1]+24)
 		
 		menu = menu_draw(83,18,166,179)
 		district_select_draw(menu[0]-5,menu[1]-5,district_name_convert(districts_display[pointer]))
@@ -276,17 +276,23 @@ switch global.state {
 		draw_sprite_ext(spr_black,0,256,0,-round(lerp(256,0,anim_timer / (anim_timer_ref-10))),112,0,c_white,1)
 		draw_sprite_ext(spr_black,0,0,112,round(lerp(256,0,anim_timer / (anim_timer_ref-10))),112,0,c_white,1)
 	break;
+	
 	case "venture_execute":
 		switch(global.substate){
 			case 0:
 				menu = menu_draw(22,68,200,25)
-				draw_text(display_get_gui_width()/4,menu[1],"press F for a venture")
+				draw_text(menu[0],menu[1],"It's venture time! Your venture card is:")
 				break;
 			case 1:
 				menu = menu_draw(22,68,200,25)
-				draw_text(display_get_gui_width()/4,menu[1],get_venture_comment(obj_game.venture_number))
+				draw_text(menu[0],menu[1],get_venture_property(obj_game.venture_number, "comment"))
 				break;
 		}
+	break;
+	
+	case "venture_error":
+		menu = menu_draw(22,68,200,25)
+		draw_text(menu[0],menu[1],get_venture_property(obj_game.venture_number, "error_message"))
 	break;
 	
 }

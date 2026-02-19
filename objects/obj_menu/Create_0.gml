@@ -34,7 +34,3 @@ game_controls = [ global.key_up, global.key_down,  global.key_left, global.key_r
 global.key_select, global.key_back, global.key_pause, global.key_view, global.key_shift]
 districts = [  ]
 districts_display = [  ]
-venture_cards = ["1: Choose your direction!", "2: Roll on!", "12: Capital Venture! Spruce up a shop",
-"14: Give everyone 30 gold!", "27: 27x the shops you own in gold coins!", "29: Take a heart!",
-"46: Lose 10% of readycash!", "50: Move the same number of spaces again!", "51: Move forward one more square!",
-"52: Move forward two more squares!"]

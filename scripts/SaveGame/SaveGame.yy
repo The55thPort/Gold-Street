@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"SaveGame",
   "parent":{
-    "name":"Scripts",
-    "path":"folders/Scripts.yy",
+    "name":"Save Scripts",
+    "path":"folders/Scripts/Save Scripts.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

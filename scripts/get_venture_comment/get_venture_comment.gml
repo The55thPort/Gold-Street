@@ -1,14 +1,18 @@
-// Returns the comment string associated with a venture number (or empty string)
-function get_venture_comment(number) {
+// Generic function to retrieve a property from venture_actions array
+function get_venture_property(number, property_name) {
 	if number >= 0 && number < array_length(obj_venture.venture_actions) {
 		var entry = obj_venture.venture_actions[number];
 		if entry != undefined {
-			if entry.comment != undefined return string(entry.comment);
-			// Backwards-compat: if someone kept the inline comment as a separate array
-			if obj_venture.venture_comments != undefined {
-				return string(obj_venture.venture_comments[number]);
+			if variable_instance_exists(entry, property_name) {
+				var value = variable_instance_get(entry, property_name);
+				if value != undefined return string(value);
 			}
 		}
 	}
 	return "";
+}
+
+// Returns the comment string associated with a venture number (or empty string)
+function get_venture_comment(number) {
+	return get_venture_property(number, "comment");
 }

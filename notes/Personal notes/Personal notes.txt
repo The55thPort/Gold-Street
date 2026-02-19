@@ -1,0 +1,7 @@
+So I have an idea for how to make more scalable code: object swapping.
+
+Take the venture cards where you roll a specific number on your next turn. We *could* have an if statement in obj_dice to check if that's the current venture number, but that's not scalable at all. Instead, we could have a child object specifically to handle these scenarios and swap out the two objects when the card is drawn.
+
+I got that to work on my version, alongside a bunch of other venture cards I made before we decided to start over. Check ventures 65 and 66 in the code for the dice roll cards.
+
+There are definitely other places we could use this if we plan for it.

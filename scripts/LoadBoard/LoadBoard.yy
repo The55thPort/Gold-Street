@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"LoadBoard",
   "parent":{
-    "name":"Scripts",
-    "path":"folders/Scripts.yy",
+    "name":"Load Scripts",
+    "path":"folders/Scripts/Load Scripts.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

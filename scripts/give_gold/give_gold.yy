@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"give_gold",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"give_gold",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

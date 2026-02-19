@@ -4,6 +4,8 @@
 
 global.state = "turn_start"
 global.substate = 0
+global.venture_state = 0 //only put here because it errors when put in obj_venture's create script
+
 if obj_persistent.file_selected != "New Game" {
 	global.state = "game_load"
 }
@@ -43,3 +45,4 @@ shops_to_give = ds_list_create();
 shops_to_receive = ds_list_create();
 
 venture_number = 0;
+

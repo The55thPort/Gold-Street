@@ -316,34 +316,12 @@ switch global.state {
 	break;
 	
 	case "player_shopless":
-	obj_audio.state_sfx = "menu_open"
-	reset_option(manage_shops)
-	break;
-	
-	case "player_stop":
-		//play sound effect
 		obj_audio.state_sfx = "menu_open"
-		
-		//menu controls
-		move_arrayed_cursor(yes_no)
-		
-		reset_option(yes_no)
+		reset_option(manage_shops)
 	break;
 	
 	case "select_square_on_board":
-		if key_pressed(global.key_back) { //duct tape code
-			selected = noone
-		}
-	break;
-	
-	case "shop_buy":
-		//play sound effect
-		obj_audio.state_sfx = "menu_open"
-		
-		//menu controls
-		move_arrayed_cursor(yes_no)
-		
-		reset_option(yes_no)
+		if key_pressed(global.key_back) {selected = noone} //duct tape code
 	break;
 	
 	case "shop_invest_2":
@@ -391,17 +369,10 @@ switch global.state {
 		}
 	break;
 	
+	case "player_stop": //all of these have the same menu controls
 	case "shop_self":
-		//play sound effect
-		obj_audio.state_sfx = "menu_open"
-		
-		//menu controls
-		move_arrayed_cursor(yes_no)
-		
-		reset_option(yes_no)
-	break;
-	
 	case "stocks_ask":
+	case "shop_buy":
 		//play sound effect
 		obj_audio.state_sfx = "menu_open"
 		
@@ -526,7 +497,8 @@ switch global.state {
 	break;
 	
 	case "venture_execute":
-		if key_pressed(global.key_select) {readyflag = true}
+	case "venture_error":
+		if key_pressed(global.key_select){readyflag = true}
 	break;
 	
 }

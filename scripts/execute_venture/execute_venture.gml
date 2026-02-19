@@ -6,9 +6,12 @@ function execute_venture(number){
 		var action = obj_venture.venture_actions[number];
 		if action != undefined {
 			// New format: struct with .run
-			if action.run != undefined {
-				action.run();
-				return;
+			if variable_instance_exists(action, "run") {
+				var run_func = variable_instance_get(action, "run");
+				if run_func != undefined {
+					run_func();
+					return;
+				}
 			}
 		}
 	}

@@ -18,7 +18,7 @@ global.theme_name = "tes"
 global.player_chat = "Slow"
 file_selected = "New Game"
 
-players = [ obj_player1, obj_player2,]
+players = [ obj_player1, obj_player2,obj_player3,obj_player4]
 player = -1
 
 player1 = "Niko"

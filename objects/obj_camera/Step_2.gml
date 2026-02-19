@@ -1,5 +1,27 @@
 //Main Camera Logic
 
+function move_cursor(){
+	if keyboard_check(global.key_up) {
+		y -= scroll_speed
+		if y < top {y += scroll_speed}
+	}
+	
+	if keyboard_check(global.key_left) {
+		x -= scroll_speed
+		if x < left {x += scroll_speed}
+	}
+	
+	if keyboard_check(global.key_down) {
+		y += scroll_speed
+		if y > bottom - 16 {y -= scroll_speed}
+	}
+	
+	if keyboard_check(global.key_right) {
+		x += scroll_speed
+		if x > right - 16 {x -= scroll_speed}
+	}
+}
+
 if room == rm_game {
 	
 	if keyboard_check(global.key_shift) {
@@ -14,25 +36,7 @@ if room == rm_game {
 			
 			sprite_index = spr_camera
 	
-			if keyboard_check(global.key_up) {
-				y -= scroll_speed
-				if y < top {y += scroll_speed}
-			}
-	
-			if keyboard_check(global.key_left) {
-				x -= scroll_speed
-				if x < left {x += scroll_speed}
-			}
-	
-			if keyboard_check(global.key_down) {
-				y += scroll_speed
-				if y > bottom - 16 {y -= scroll_speed}
-			}
-	
-			if keyboard_check(global.key_right) {
-				x += scroll_speed
-				if x > right - 16 {x -= scroll_speed}
-			}
+			move_cursor();
 		
 			if keyboard_check_pressed(global.key_select) { // selects the shop
 				log("giving : " +string(obj_game.give_or_receive))
@@ -69,27 +73,20 @@ if room == rm_game {
 	
 		case "board_view":
 			//allow player control over camera
-	
-			if keyboard_check(global.key_up) {
-				y -= scroll_speed
-				if y < top {y += scroll_speed}
+			move_cursor();
+		break;
+		
+		case "venture_select":
+			sprite_index = spr_camera
+			move_cursor();
+			if keyboard_check_pressed(global.key_select) { // selects the shop
+				var space = instance_position(x+8,y+8,obj_space)
+				if space != noone {
+					selected = space
+					sprite_index = noone
+					readyflag = true
+				}
 			}
-	
-			if keyboard_check(global.key_left) {
-				x -= scroll_speed
-				if x < left {x += scroll_speed}
-			}
-	
-			if keyboard_check(global.key_down) {
-				y += scroll_speed
-				if y > bottom - 16 {y -= scroll_speed}
-			}
-	
-			if keyboard_check(global.key_right) {
-				x += scroll_speed
-				if x > right - 16 {x -= scroll_speed}
-			}
-	
 		break;
 	
 		case "shop_invest_1":
@@ -113,8 +110,6 @@ if room == rm_game {
 
 	
 	}
-
-
 	
 	//parallax all backgrounds when moving
 	with (obj_background) {

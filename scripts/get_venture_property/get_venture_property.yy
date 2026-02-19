@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"get_venture_property",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"get_venture_property",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

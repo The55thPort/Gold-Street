@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"get_venture_comment",
+  "%Name":"warp_player",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"get_venture_comment",
+  "name":"warp_player",
   "parent":{
     "name":"Scripts",
     "path":"folders/Scripts.yy",
